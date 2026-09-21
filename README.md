@@ -31,18 +31,30 @@ In a second terminal:
 streamlit run dashboard.py
 ```
 
+By default, the dashboard calls the local API at `http://127.0.0.1:8000`. To test a deployed Render API from the local dashboard, set `API_URL` before starting Streamlit:
+
+```powershell
+$env:API_URL = "https://your-service-name.onrender.com"
+streamlit run dashboard.py
+```
+
+The dashboard will then send requests to `https://your-service-name.onrender.com/predict`.
+
 ## Deploy the API to Render
 
-This repository includes a `render.yaml` Blueprint for deploying the FastAPI service as a single Docker web service.
+This repository includes a `render.yaml` Blueprint for deploying the FastAPI service and Streamlit dashboard as two web services.
 
 1. Push the `claims-risk-platform` folder to a GitHub repository.
 2. In Render, choose **New +** and then **Blueprint**.
 3. Connect the GitHub repository and select the branch containing `render.yaml`.
-4. Confirm the `claims-risk-api` service and deploy it.
-5. After deployment, open `https://<your-service-name>.onrender.com/health`.
-6. Open `https://<your-service-name>.onrender.com/docs` for the interactive API documentation.
+4. Confirm the `claims-risk-api` and `claims-risk-dashboard` services.
+5. Deploy the services.
+6. After deployment, open the API service's `/health` endpoint.
+7. Open the dashboard service URL in your browser.
 
 The container uses Render's `PORT` environment variable automatically. Render's free service may take a short time to wake after inactivity.
+
+The dashboard's `API_URL` must point to the deployed API service URL. Update the value in `render.yaml` if Render assigned your API a different URL, or set `API_URL` in the dashboard service's Environment settings.
 
 ### Manual Render configuration
 
@@ -52,6 +64,13 @@ If you create a Web Service instead of using the Blueprint, use:
 - **Dockerfile path:** `./Dockerfile`
 - **Docker context:** `.`
 - **Health check path:** `/health`
+
+For the Streamlit service, use:
+
+- **Runtime:** Python
+- **Build command:** `pip install -r requirements.txt`
+- **Start command:** `streamlit run dashboard.py --server.address 0.0.0.0 --server.port $PORT`
+- **Environment variable:** `API_URL=https://<your-api-service>.onrender.com`
 
 ## Example request
 

@@ -1,3 +1,5 @@
+import os
+
 import requests
 import streamlit as st
 
@@ -5,6 +7,7 @@ import streamlit as st
 st.set_page_config(page_title="Claims Risk Review", page_icon="🛡️", layout="centered")
 st.title("Claims Risk Review")
 st.caption("Synthetic-data demonstration. Predictions support human review; they do not make claims decisions.")
+api_url = os.getenv("API_URL", "http://127.0.0.1:8000").rstrip("/")
 
 with st.form("claim-form"):
     claim_amount = st.number_input("Claim amount", min_value=1.0, value=125000.0, step=5000.0)
@@ -32,7 +35,7 @@ if submitted:
         "police_report_filed": police_report_filed,
     }
     try:
-        response = requests.post("http://127.0.0.1:8000/predict", json=payload, timeout=10)
+        response = requests.post(f"{api_url}/predict", json=payload, timeout=30)
         response.raise_for_status()
         result = response.json()
         st.metric("Fraud risk", f"{result['fraud_risk_probability']:.1%}", result["fraud_risk_band"].upper())
@@ -41,4 +44,3 @@ if submitted:
         st.caption(f"Model: {result['model_version']}")
     except requests.RequestException as exc:
         st.error(f"Prediction service unavailable: {exc}")
-
