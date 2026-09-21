@@ -45,7 +45,7 @@ def generate_claims(n_rows: int = 1200, seed: int = 42) -> pd.DataFrame:
     fraud_probability = 1 / (1 + np.exp(-logit))
     fraud_flag = rng.binomial(1, fraud_probability)
 
-    return pd.DataFrame(
+    claims = pd.DataFrame(
         {
             "claim_amount": claim_amount.round(2),
             "policy_tenure_months": policy_tenure,
@@ -59,6 +59,8 @@ def generate_claims(n_rows: int = 1200, seed: int = 42) -> pd.DataFrame:
             "fraud_flag": fraud_flag,
         }
     )
+    print(claims)
+    return claims
 
 
 def validate_claims(data: pd.DataFrame) -> list[str]:
@@ -81,4 +83,7 @@ def validate_claims(data: pd.DataFrame) -> list[str]:
 def save_dataset(data: pd.DataFrame, path: Path) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     data.to_csv(path, index=False)
+
+if __name__=="__main__":
+    generate_claims(1200, 42)
 

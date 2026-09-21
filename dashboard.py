@@ -18,6 +18,7 @@ with st.form("claim-form"):
     police_report_filed = st.checkbox("Police report filed", value=True)
     submitted = st.form_submit_button("Assess claim")
 
+
 if submitted:
     payload = {
         "claim_amount": claim_amount,

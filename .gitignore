@@ -6,3 +6,8 @@ artifacts/
 .streamlit/secrets.toml
 .env
 
+venv/
+.env
+__pycache__/
+*.log
+.git/

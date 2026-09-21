@@ -1,11 +1,12 @@
 from pathlib import Path
 
-from claims_platform.data import generate_claims, save_dataset, validate_claims
+from claims_platform.data import generate_claims, validate_claims, save_dataset 
 from claims_platform.model import train_models
 
 
 def main() -> None:
     data = generate_claims()
+    print(data)
     errors = validate_claims(data)
     if errors:
         raise SystemExit(f"Data validation failed: {errors}")

@@ -59,6 +59,7 @@ def load_models(path: Path = ARTIFACT_PATH) -> dict[str, Any]:
 
 
 def predict(claim: dict[str, Any], artifact: dict[str, Any]) -> dict[str, Any]:
+
     features = pd.DataFrame([claim], columns=FEATURE_COLUMNS)
     fraud_probability = float(artifact["classifier"].predict_proba(features)[0, 1])
     severity = max(0.0, float(artifact["regressor"].predict(features)[0]))

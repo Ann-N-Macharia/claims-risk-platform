@@ -2,7 +2,7 @@
 
 An insurance claims decision-support application demonstrating data validation, predictive modelling, API development, explainability, and a business-facing dashboard.
 
-The model is trained on **synthetic data** and must not be used for real claims decisions.
+The model is trained on **synthetic data** and not be used for real claims decisions.
 
 ## Features
 
@@ -30,6 +30,28 @@ In a second terminal:
 ```powershell
 streamlit run dashboard.py
 ```
+
+## Deploy the API to Render
+
+This repository includes a `render.yaml` Blueprint for deploying the FastAPI service as a single Docker web service.
+
+1. Push the `claims-risk-platform` folder to a GitHub repository.
+2. In Render, choose **New +** and then **Blueprint**.
+3. Connect the GitHub repository and select the branch containing `render.yaml`.
+4. Confirm the `claims-risk-api` service and deploy it.
+5. After deployment, open `https://<your-service-name>.onrender.com/health`.
+6. Open `https://<your-service-name>.onrender.com/docs` for the interactive API documentation.
+
+The container uses Render's `PORT` environment variable automatically. Render's free service may take a short time to wake after inactivity.
+
+### Manual Render configuration
+
+If you create a Web Service instead of using the Blueprint, use:
+
+- **Runtime:** Docker
+- **Dockerfile path:** `./Dockerfile`
+- **Docker context:** `.`
+- **Health check path:** `/health`
 
 ## Example request
 
