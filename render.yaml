@@ -14,5 +14,5 @@ services:
     startCommand: streamlit run dashboard.py --server.address 0.0.0.0 --server.port $PORT
     envVars:
       - key: API_URL
-        value: https://claims-risk-api.onrender.com
+        value: https://claims-risk-api-zspx.onrender.com
     plan: free
