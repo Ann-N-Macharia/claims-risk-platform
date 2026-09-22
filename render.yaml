@@ -1,13 +1,5 @@
 services:
   - type: web
-    name: claims-risk-api
-    runtime: docker
-    dockerfilePath: ./Dockerfile
-    dockerContext: .
-    healthCheckPath: /health
-    plan: free
-
-  - type: web
     name: claims-risk-dashboard
     runtime: python
     buildCommand: pip install -r requirements.txt
@@ -15,4 +7,12 @@ services:
     envVars:
       - key: API_URL
         value: https://claims-risk-api-zspx.onrender.com
+    plan: free
+
+  - type: web
+    name: claims-risk-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
     plan: free
