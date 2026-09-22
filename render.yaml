@@ -11,7 +11,7 @@ services:
     name: claims-risk-dashboard
     runtime: python
     buildCommand: pip install -r requirements.txt
-    startCommand: streamlit run dashboard.py --server.address 0.0.0.0 --server.port $PORT
+    startCommand: streamlit run dashboard.py --server.address=0.0.0.0 --server.port=$PORT
     envVars:
       - key: API_URL
         value: https://claims-risk-api-zspx.onrender.com
